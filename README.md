@@ -1,4 +1,4 @@
-## RT LiveSearch
+## RT Extended Cache
 RT Extended Cache is a plugin that extends the native MyBB cache handler with additional functionalities to simplify the work of both users and developers. The plugin provides new functions, including auto expiration time for the cache, auto increment and decrement methods, and the ability to cache database queries on the fly.
 
 ### Table of contents
