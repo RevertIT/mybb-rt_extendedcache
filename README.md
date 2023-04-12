@@ -72,7 +72,7 @@ function misc_hook()
 {
     global $rt_cache;
 
-    $rt->cache->get('some_cache');
+    $rt_cache->get('some_cache');
 }
 ```
 
