@@ -7,7 +7,7 @@ RT Extended Cache is a plugin that extends the native MyBB cache handler with ad
 2. [📃 Features](#-features)
 3. [➕ Installation](#-installation)
 4. [🔼 Update](#-update)
-5. [📜 Usage](#load-rt-cache-into-pluginfile)
+5. [📜 Usage](#-usage)
 
 ### ❗ Dependencies
 - MyBB 1.8.x
@@ -73,6 +73,15 @@ function misc_hook()
     global $rt_cache;
 
     $rt_cache->get('some_cache');
+}
+```
+
+### Check version
+To get plugin version, use the `$rt_cache->version`. Here's an example to check in your plugin if theres need for newer version of RT Extended Cache:
+```php
+if ($rt_cache->version < 2)
+{
+    // do something
 }
 ```
 
