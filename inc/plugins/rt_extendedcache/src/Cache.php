@@ -25,21 +25,21 @@ use rt\ExtendedCache\CacheExtensions\DbCache;
 class Cache
 {
     private datacache $cache;
-	private string $cache_prefix;
-	private string $cache_prefix_int;
+    private string $cache_prefix;
+    private string $cache_prefix_int;
 
     public int $version;
 
-	public function __construct()
-	{
+    public function __construct()
+    {
         $this->cache = new datacache();
         $this->cache->cache();
 
-		$this->cache_prefix = Core::get_plugin_info('prefix') . '-';
-		$this->cache_prefix_int = 'int-';
+        $this->cache_prefix = Core::get_plugin_info('prefix') . '-';
+        $this->cache_prefix_int = 'int-';
 
         $this->version = $this->version();
-	}
+    }
 
     /**
      * Plugin version as integer
@@ -51,55 +51,55 @@ class Cache
         return (int) Core::get_plugin_info('version');
     }
 
-	/**
-	 * Set cache
-	 *
-	 * @param string $name Cache name
-	 * @param mixed $data Cache data
-	 * @param int $deletion_time When cache should be deleted in seconds | 0 = never expire
-	 * @return void
-	 */
-	public function set(string $name, mixed $data, int $deletion_time = 0): void
-	{
-		$name = $this->cache_prefix . $name;
+    /**
+     * Set cache
+     *
+     * @param string $name Cache name
+     * @param mixed $data Cache data
+     * @param int $deletion_time When cache should be deleted in seconds | 0 = never expire
+     * @return void
+     */
+    public function set(string $name, mixed $data, int $deletion_time = 0): void
+    {
+        $name = $this->cache_prefix . $name;
 
-		$contents = [
-			'cached_at' => TIME_NOW,
-			'deletion_time' => $deletion_time,
-			'data' => $data,
-		];
+        $contents = [
+            'cached_at' => TIME_NOW,
+            'deletion_time' => $deletion_time,
+            'data' => $data,
+        ];
 
-		$this->cache->update($name, $contents);
-	}
+        $this->cache->update($name, $contents);
+    }
 
-	/**
-	 * Get cache data
-	 *
-	 * @param string $name name of the cache key
-	 * @return mixed
-	 */
-	public function get(string $name): mixed
-	{
-		$name = $this->cache_prefix . $name;
+    /**
+     * Get cache data
+     *
+     * @param string $name name of the cache key
+     * @return mixed
+     */
+    public function get(string $name): mixed
+    {
+        $name = $this->cache_prefix . $name;
 
-		if (empty($this->cache->read($name)))
-		{
-			return null;
-		}
+        if (empty($this->cache->read($name)))
+        {
+            return null;
+        }
 
-		$cache = $this->cache->read($name);
+        $cache = $this->cache->read($name);
 
-		// Delete cache if expired
-		if (isset($cache['cached_at'], $cache['deletion_time']) && (int) $cache['deletion_time'] > 0)
-		{
-			if ($cache['cached_at'] < TIME_NOW - $cache['deletion_time'])
-			{
-				$this->cache->delete($name);
-			}
-		}
+        // Delete cache if expired
+        if (isset($cache['cached_at'], $cache['deletion_time']) && (int) $cache['deletion_time'] > 0)
+        {
+            if ($cache['cached_at'] < TIME_NOW - $cache['deletion_time'])
+            {
+                $this->cache->delete($name);
+            }
+        }
 
-		return $this->cache->read($name)['data'];
-	}
+        return $this->cache->read($name)['data'];
+    }
 
     /**
      * Delete cache
@@ -112,49 +112,49 @@ class Cache
         $this->cache->delete($name);
     }
 
-	/**
-	 * increase the key number in cache by amount.
-	 *
-	 * @param string $name Name of the cache key
-	 * @param int $amount Increase amount of number by X times. 0 = delete cache
-	 * @return int
-	 */
-	public function increment(string $name, int $amount = 1): int
-	{
-		$name = $this->cache_prefix . $this->cache_prefix_int . $name;
+    /**
+     * increase the key number in cache by amount.
+     *
+     * @param string $name Name of the cache key
+     * @param int $amount Increase amount of number by X times. 0 = delete cache
+     * @return int
+     */
+    public function increment(string $name, int $amount = 1): int
+    {
+        $name = $this->cache_prefix . $this->cache_prefix_int . $name;
 
-		if ($amount <= 0)
-		{
-			$this->cache->delete($name);
-			return 0;
-		}
+        if ($amount <= 0)
+        {
+            $this->cache->delete($name);
+            return 0;
+        }
 
-		$this->cache->update($name, (int) $this->cache->read($name) + $amount);
+        $this->cache->update($name, (int) $this->cache->read($name) + $amount);
 
-		return $this->cache->read($name);
-	}
+        return $this->cache->read($name);
+    }
 
-	/**
-	 * Decrease the number in cache by amount.
-	 *
-	 * @param string $name
-	 * @param int $amount Decrease amount of number by X times. 0 = delete cache
-	 * @return int
-	 */
-	public function decrement(string $name, int $amount = 1): int
-	{
-		$name = $this->cache_prefix . $this->cache_prefix_int . $name;
+    /**
+     * Decrease the number in cache by amount.
+     *
+     * @param string $name
+     * @param int $amount Decrease amount of number by X times. 0 = delete cache
+     * @return int
+     */
+    public function decrement(string $name, int $amount = 1): int
+    {
+        $name = $this->cache_prefix . $this->cache_prefix_int . $name;
 
-		if ($amount === 0)
-		{
-			$this->cache->delete($name);
-			return 0;
-		}
+        if ($amount === 0)
+        {
+            $this->cache->delete($name);
+            return 0;
+        }
 
-		$this->cache->update($name, (int) $this->cache->read($name) - $amount);
+        $this->cache->update($name, (int) $this->cache->read($name) - $amount);
 
-		return $this->cache->read($name);
-	}
+        return $this->cache->read($name);
+    }
 
     /**
      * Database query to run. Make sure to escape all user input before passing data
