@@ -7,7 +7,7 @@ RT Extended Cache is a plugin that extends the native MyBB cache handler with ad
 2. [📃 Features](#-features)
 3. [➕ Installation](#-installation)
 4. [🔼 Update](#-update)
-5. [Usage](#load-rt-cache-into-pluginfile)
+5. [📜 Usage](#load-rt-cache-into-pluginfile)
 
 ### ❗ Dependencies
 - MyBB 1.8.x
@@ -26,7 +26,7 @@ RT Extended Cache is a plugin that extends the native MyBB cache handler with ad
 ### 🔼 Update
 - Copy/paste new files into your MyBB root directory.
 
-## Usage
+## 📜 Usage
 
 ### Load RT Cache into plugin/file
 To load RT Cache into your plugin or file, you should include the following snippet at the top of your plugin or below require `./global.php` if including inside custom file.
@@ -48,7 +48,7 @@ if (!defined('RT_EXTENDEDCACHE'))
 require_once RT_EXTENDEDCACHE;
 // END: Include from here
 ```
-- **Load RT Cache inside custom `file.php`**
+- **Load RT Cache inside custom `customfile.php`**
 ```php
 <?php
 
