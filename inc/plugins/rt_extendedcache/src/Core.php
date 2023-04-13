@@ -9,6 +9,7 @@
  * - Auto increment (convenient method for incrementing value)
  * - Auto decrement (convenient method for decrementing value)
  * - Cache database queries on fly
+ * - Cache remote api requests on fly
  *
  * @package rt_extendedcache
  * @author  RevertIT <https://github.com/revertit>

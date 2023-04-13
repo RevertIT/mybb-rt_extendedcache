@@ -9,6 +9,7 @@
  * - Auto increment (convenient method for incrementing value)
  * - Auto decrement (convenient method for decrementing value)
  * - Cache database queries on fly
+ * - Cache remote api requests on fly
  *
  * @package rt_extendedcache
  * @author  RevertIT <https://github.com/revertit>
@@ -24,9 +25,11 @@ if (!defined("IN_MYBB"))
 }
 
 // Main files
-require MYBB_ROOT . 'inc/plugins/rt_extendedcache/src/Cache.php';
-require MYBB_ROOT . 'inc/plugins/rt_extendedcache/src/CacheExtensions/DbCache.php';
 require MYBB_ROOT . 'inc/plugins/rt_extendedcache/src/Core.php';
+require MYBB_ROOT . 'inc/plugins/rt_extendedcache/src/Cache.php';
+require MYBB_ROOT . 'inc/plugins/rt_extendedcache/src/CacheExtensions/CacheExtensionInterface.php';
+require MYBB_ROOT . 'inc/plugins/rt_extendedcache/src/CacheExtensions/DbCache.php';
+require MYBB_ROOT . 'inc/plugins/rt_extendedcache/src/CacheExtensions/ApiCache.php';
 
 function rt_extendedcache_info(): array
 {

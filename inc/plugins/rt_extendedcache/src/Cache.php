@@ -9,6 +9,7 @@
  * - Auto increment (convenient method for incrementing value)
  * - Auto decrement (convenient method for decrementing value)
  * - Cache database queries on fly
+ * - Cache remote api requests on fly
  *
  * @package rt_extendedcache
  * @author  RevertIT <https://github.com/revertit>
@@ -20,6 +21,8 @@ declare(strict_types=1);
 namespace rt\ExtendedCache;
 
 use \datacache;
+use rt\ExtendedCache\CacheExtensions\ApiCache;
+use rt\ExtendedCache\CacheExtensions\CacheExtensionInterface;
 use rt\ExtendedCache\CacheExtensions\DbCache;
 
 class Cache
@@ -165,10 +168,24 @@ class Cache
      * $user = $rt_cache->query("select * from ".TABLE_PREFIX."users WHERE uid = '{$db->escape_string($uid)}'")->cache('cached_user_data', 3600);
      *
      * @param string $query SQL Query
-     * @return DbCache DBCache object for chaining further options
+     * @return CacheExtensionInterface DBCache object for chaining further options
      */
-    public function query(string $query): DbCache
+    public function query(string $query): CacheExtensionInterface
     {
         return new DbCache($query);
     }
+
+    /**
+     * Fetch remote API requests and get data from cache. Extending native MyBB remote api
+     *
+     * @param string $url The URL of the remote file
+     * @param array $post_data The array of post data
+     * @param int $max_redirects Number of maximum redirects
+     * @return CacheExtensionInterface ApiCache object for chaining further options
+     */
+    public function api(string $url, array $post_data = [], int $max_redirects = 20): CacheExtensionInterface
+    {
+        return new ApiCache($url, $post_data, $max_redirects);
+    }
+
 }

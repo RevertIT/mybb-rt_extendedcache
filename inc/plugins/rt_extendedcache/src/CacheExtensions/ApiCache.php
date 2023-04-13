@@ -22,54 +22,50 @@ namespace rt\ExtendedCache\CacheExtensions;
 
 use rt\ExtendedCache\Cache;
 
-final class DbCache implements CacheExtensionInterface
+final class ApiCache implements CacheExtensionInterface
 {
     private string $cacheName;
 
     /**
-     * Query name from parent CacheExtender
+     * Data from the parent cache extender
      *
-     * @param string $cache_query
+     * @param string $url
+     * @param array $post_data
+     * @param int $max_redirects
      */
-    public function __construct(private string $cache_query)
+    public function __construct(private string $url, private array $post_data = [], private int $max_redirects = 20)
     {
         $this->cacheName = '';
     }
 
     /**
-     * Cache database query and return value
+     * Cache remote API query
      *
      * @param string $cache_name Cache name for your query
      * @param int $deletion_time Deletion time in seconds when cache will be deleted
      * @return mixed
      */
-    public function cache(string $cache_name, int $deletion_time = 0): DbCache
+    public function cache(string $cache_name, int $deletion_time = 0): ApiCache
     {
-        global $db;
 
         $this->cacheName = bin2hex($cache_name);
         $extendedCache = new Cache();
 
         $current_cache = $extendedCache->get($this->cacheName);
 
-        // We have current cache, return it
+        // No cache found or expired
         if (empty($current_cache))
         {
-            // No cache found or expired
-            $query = $db->write_query($this->cache_query);
-            $cache = [];
-            foreach ($query as $row)
-            {
-                $cache[] = $row;
-            }
-            $extendedCache->set($this->cacheName, $cache, $deletion_time);
+            $api = fetch_remote_file($this->url, $this->post_data, $this->max_redirects);
+
+            $extendedCache->set($this->cacheName, $api, $deletion_time);
         }
 
         return $this;
     }
 
     /**
-     * Execute the cache query and return results from the cache.
+     * Execute the cache and return results from the cache.
      *
      * @return mixed
      */
@@ -79,7 +75,7 @@ final class DbCache implements CacheExtensionInterface
     }
 
     /**
-     * Delete cache database query
+     * Delete cache
      *
      * @param string $cache_name Cache name
      * @return void
@@ -90,5 +86,4 @@ final class DbCache implements CacheExtensionInterface
 
         (new Cache())->delete($cache_name);
     }
-
 }
