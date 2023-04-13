@@ -27,7 +27,7 @@ class Core
         'website' => 'https://github.com/RevertIT/mybb-rt_extendedcache',
         'author' => 'RevertIT',
         'authorsite' => 'https://github.com/RevertIT/',
-        'version' => '1.0',
+        'version' => '2.0',
         'compatibility' => '18*',
         'codename' => 'rt_extendedcache',
         'prefix' => 'rt_extendedcache',
@@ -54,5 +54,4 @@ class Core
         flash_message("You have successfully installed " . self::PLUGIN_DETAILS['name'] . " version " . self::PLUGIN_DETAILS['version'] . ".", 'success');
         admin_redirect("?module=config-plugins");
     }
-
 }
