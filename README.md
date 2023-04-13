@@ -101,6 +101,13 @@ $rt_cache->get('cache_name');
 ```
 The code above will retrieve `$data` in the cache with the key `cache_name`.
 
+### Delete cache
+The `delete()` method allows you to delete cache. Here's an example:
+
+```php
+$rt_cache->delete("cache_name");
+```
+
 ### Auto increment
 The increment() method is a convenient way to increase the value of a cache key. Use it with the key name and the amount to increase the value:
 ```php
@@ -127,19 +134,23 @@ $new_value = $rt_cache->decrement('foo_baz', 5);
 $new_value = $rt_cache->decrement('foo_baz', 0);
 ```
 
-### Cache database query
+### Get cached query
 The `query()` method allows you to cache the results of database queries. Here's an example:
 
 ```php
 $uid = 1;
 $user = $rt_cache->query("SELECT * FROM " . TABLE_PREFIX . "users WHERE uid = '{$db->escape_string($uid)}'")
-                  ->cache('cached_user_data_' . $uid, 3600);
+                  ->cache('cached_user_data_' . $uid, 3600)
+                  ->execute();
 ```
 The code above will cache the query and store it with a key `cached_user_data_$uid` for `3600` seconds, after that it will refresh the query and get new data.
 
-### Delete cache
-The `delete()` method allows you to delete cache. Here's an example:
+### Delete cached query
+The `delete()` method allows you to delete the query cache with key name. Here's an example:
 
 ```php
-$rt_cache->delete("cached_user_data_1");
+$uid = 1;
+$user = $rt_cache->query("SELECT * FROM " . TABLE_PREFIX . "users WHERE uid = '{$db->escape_string($uid)}'")
+                  ->delete('cached_user_data_' . $uid);
 ```
+The code above will delete the cached query with a key `cached_user_data_$uid`.
