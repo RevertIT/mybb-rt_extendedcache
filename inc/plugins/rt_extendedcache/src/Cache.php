@@ -109,6 +109,7 @@ class Cache
      */
     public function delete(string $name): void
     {
+        $name = $this->cache_prefix . $name;
         $this->cache->delete($name);
     }
 
