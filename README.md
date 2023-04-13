@@ -22,6 +22,7 @@ RT Extended Cache is a plugin that extends the native MyBB cache handler with ad
 - Auto increment (convenient method for incrementing value).
 - Auto decrement (convenient method for decrementing value).
 - Cache database queries on the fly.
+- Cache remote api requets on the fly.
 
 ### ➕ Installation
 - Copy the directories from the plugin inside your root MyBB installation.
