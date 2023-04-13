@@ -159,7 +159,6 @@ The code above will delete the cached query with a key `cached_user_data_$uid`.
 The `api()` method allows you to cache the results of database queries. Here's an example:
 
 ```php
-$uid = 1;
 $user = $rt_cache->api("https://api-link.com/")
                   ->cache('api_data_from', 3600)
                   ->execute();
@@ -170,7 +169,6 @@ The code above will cache the api response and store it with a key `api_data_fro
 The `delete()` method allows you to delete the API cache with key name. Here's an example:
 
 ```php
-$uid = 1;
 $user = $rt_cache->api("https://api-link.com/")
                   ->delete('api_data_from');
 ```
