@@ -23,7 +23,7 @@ use rt\ExtendedCache\Cache;
 
 final class DbCache
 {
-    private Cache $cacheExtended;
+    private string $cacheName;
 
     /**
      * Query name from parent CacheExtender
@@ -32,7 +32,7 @@ final class DbCache
      */
     public function __construct(private string $cache_query)
     {
-        $this->cacheExtended = new Cache();
+        $this->cacheName = '';
     }
 
     /**
@@ -42,32 +42,40 @@ final class DbCache
      * @param int $deletion_time Deletion time in seconds when cache will be deleted
      * @return mixed
      */
-    public function cache(string $cache_name, int $deletion_time = 0): mixed
+    public function cache(string $cache_name, int $deletion_time = 0): DbCache
     {
         global $db;
 
-        $cache_name = bin2hex($cache_name);
+        $this->cacheName = bin2hex($cache_name);
+        $extendedCache = new Cache();
 
-        $current_cache = $this->cacheExtended->get($cache_name);
+        $current_cache = $extendedCache->get($this->cacheName);
 
         // We have current cache, return it
-        if (!empty($current_cache))
+        if (empty($current_cache))
         {
-            return $current_cache;
+            // No cache found or expired
+            $query = $db->write_query($this->cache_query);
+            $cache = [];
+            foreach ($query as $row)
+            {
+                $cache[] = $row;
+            }
+            $extendedCache->set($this->cacheName, $cache, $deletion_time);
         }
 
-        // No cache found or expired
-        $query = $db->write_query($this->cache_query);
-        $cache = [];
-        foreach ($query as $row)
-        {
-            $cache[] = $row;
-        }
-        $this->cacheExtended->set($cache_name, $cache, $deletion_time);
-
-        return $this->cacheExtended->get($cache_name);
+        return $this;
     }
 
+    /**
+     * Execute the cache query and return results from the cache.
+     *
+     * @return mixed
+     */
+    public function execute(): mixed
+    {
+        return (new Cache())->get($this->cacheName);
+    }
 
     /**
      * Delete cache database query
@@ -79,7 +87,7 @@ final class DbCache
     {
         $cache_name = bin2hex($cache_name);
 
-        $this->cacheExtended->delete($cache_name);
+        (new Cache())->delete($cache_name);
     }
 
 }
