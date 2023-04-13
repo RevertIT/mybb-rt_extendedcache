@@ -8,6 +8,9 @@ RT Extended Cache is a plugin that extends the native MyBB cache handler with ad
 3. [➕ Installation](#-installation)
 4. [🔼 Update](#-update)
 5. [📜 Usage](#-usage)
+6. [💡 Feature request](#-feature-request)
+7. [🙏 Questions](#-questions)
+8. [🐞 Bug reports](#-bug-reports)
 
 ### ❗ Dependencies
 - MyBB 1.8.x
@@ -173,3 +176,12 @@ $user = $rt_cache->api("https://api-link.com/")
                   ->delete('api_data_from');
 ```
 The code above will delete the cached api with a key `api_data_from`.
+
+### 💡 Feature request
+Open a new idea by [clicking here](https://github.com/RevertIT/mybb-rt_extendedcache/discussions/new?category=ideas)
+
+### 🙏 Questions
+Open a new question by [clicking here](https://github.com/RevertIT/mybb-rt_extendedcache/discussions/new?category=q-a)
+
+### 🐞 Bug reports
+Open a new bug report by [clicking here](https://github.com/RevertIT/mybb-rt_extendedcache/issues/new)
