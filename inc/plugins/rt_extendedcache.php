@@ -24,12 +24,14 @@ if (!defined("IN_MYBB"))
     die("Direct initialization of this file is not allowed.");
 }
 
-// Main files
-require MYBB_ROOT . 'inc/plugins/rt_extendedcache/src/Core.php';
-require MYBB_ROOT . 'inc/plugins/rt_extendedcache/src/Cache.php';
-require MYBB_ROOT . 'inc/plugins/rt_extendedcache/src/CacheExtensions/CacheExtensionInterface.php';
-require MYBB_ROOT . 'inc/plugins/rt_extendedcache/src/CacheExtensions/DbCache.php';
-require MYBB_ROOT . 'inc/plugins/rt_extendedcache/src/CacheExtensions/ApiCache.php';
+// Autoload classes
+require_once MYBB_ROOT . 'inc/plugins/rt/vendor/autoload.php';
+
+\rt\Autoload\psr4_autoloader(
+    'rt',
+    'src',
+    'rt\\ExtendedCache\\',
+);
 
 function rt_extendedcache_info(): array
 {

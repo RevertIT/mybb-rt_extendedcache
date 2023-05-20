@@ -30,7 +30,6 @@ class Cache
     private datacache $cache;
     private string $cache_prefix;
     private string $cache_prefix_int;
-
     public int $version;
 
     public function __construct()

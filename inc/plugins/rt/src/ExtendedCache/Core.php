@@ -28,7 +28,7 @@ class Core
         'website' => 'https://github.com/RevertIT/mybb-rt_extendedcache',
         'author' => 'RevertIT',
         'authorsite' => 'https://github.com/RevertIT/',
-        'version' => '2.0',
+        'version' => '3.0',
         'compatibility' => '18*',
         'codename' => 'rt_extendedcache',
         'prefix' => 'rt_extendedcache',
