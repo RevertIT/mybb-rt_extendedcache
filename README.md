@@ -160,7 +160,7 @@ $user = $rt_cache->query("SELECT * FROM " . TABLE_PREFIX . "users WHERE uid = '{
 The code above will delete the cached query with a key `cached_user_data_$uid`.
 
 ### Get cached API request
-The `api()` method allows you to cache the results of database queries. Here's an example:
+The `api()` method allows you to cache the results of requested API url. Here's an example:
 
 ```php
 $user = $rt_cache->api("https://api-link.com/")
